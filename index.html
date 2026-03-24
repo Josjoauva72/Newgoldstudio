@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>New Gold Studio | Premium Photo Frames Shop</title>
+  <meta name="description" content="Capture memories in beautiful frames. Shop wall frames, photo prints & custom frames in Dindigul. Free shipping & COD available.">
+  <meta name="keywords" content="photo frames, custom frames, wall frames, Dindigul, Tamil Nadu, photo shop, New Gold Studio">
+  <meta name="author" content="New Gold Studio">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; transition: background-color 0.4s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
+    
+    /* Light Theme - White Background (Default) */
+    body { background: #ffffff; color: #1e293b; }
+    .navbar { background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
+    .nav-links a, .nav-links .nav-item { color: #334155; }
+    .product-card { background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .stats-card { background: white; }
+    .modal-content { background: white; }
+    footer { background: #0f172a; color: #cbd5e1; }
+    .hero { background: linear-gradient(135deg, #fff5e6 0%, #ffffff 100%); }
+    .admin-dashboard-container { background: #f8fafc; }
+    .review-card { background: rgba(245,158,11,0.1); }
+    
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+    .navbar { position: sticky; top: 0; z-index: 1000; width: 100%; backdrop-filter: blur(10px); background: rgba(255,255,255,0.95); }
+    .nav-container { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 12px 20px; max-width: 1400px; margin: 0 auto; gap: 12px; }
+    .logo { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .logo-img { height: 45px; width: auto; object-fit: contain; transition: transform 0.3s ease; border-radius: 8px; }
+    .logo-img:hover { transform: scale(1.05); }
+    .shop-name-text { font-weight: 700; font-size: 1.3rem; background: linear-gradient(135deg, #f59e0b, #d97706); background-clip: text; -webkit-background-clip: text; color: transparent; margin-left: 8px; }
+    
+    /* Search Box Styles */
+    .search-container { position: relative; }
+    .search-box { display: flex; align-items: center; background: #f1f5f9; border-radius: 40px; padding: 4px 8px 4px 16px; transition: all 0.3s ease; border: 1px solid #e2e8f0; }
+    .search-box:focus-within { background: white; border-color: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,0.2); }
+    .search-input { border: none; background: transparent; padding: 8px 8px; font-size: 0.9rem; outline: none; width: 200px; transition: width 0.3s; }
+    .search-input:focus { width: 250px; }
+    .search-btn { background: #f59e0b; border: none; padding: 8px 16px; border-radius: 40px; color: white; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 8px; font-weight: 500; }
+    .search-btn:hover { background: #d97706; transform: scale(1.02); }
+    .search-results-modal { position: absolute; top: 100%; right: 0; background: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); min-width: 320px; max-width: 400px; z-index: 1001; margin-top: 12px; overflow: hidden; display: none; animation: fadeInUp 0.2s ease; }
+    .search-results-header { padding: 12px 16px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; font-weight: 600; color: #f59e0b; }
+    .search-results-list { max-height: 400px; overflow-y: auto; }
+    .search-result-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; cursor: pointer; transition: all 0.2s; border-bottom: 1px solid #e2e8f0; }
+    .search-result-item:hover { background: rgba(245,158,11,0.1); transform: translateX(5px); }
+    .search-result-img { width: 50px; height: 50px; object-fit: cover; border-radius: 12px; background: #f1f5f9; }
+    .search-result-info { flex: 1; }
+    .search-result-name { font-weight: 600; font-size: 0.9rem; margin-bottom: 4px; }
+    .search-result-model { font-size: 0.7rem; color: #64748b; }
+    .search-result-price { color: #f59e0b; font-weight: 600; font-size: 0.85rem; }
+    .no-results { padding: 20px; text-align: center; color: #64748b; }
+    
+    .nav-links { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+    .nav-links a, .nav-links .nav-item { text-decoration: none; font-weight: 500; transition: all 0.3s ease; cursor: pointer; font-size: clamp(0.85rem, 4vw, 1rem); position: relative; }
+    .nav-links a::after, .nav-links .nav-item::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: #f59e0b; transition: width 0.3s ease; }
+    .nav-links a:hover::after, .nav-links .nav-item:hover::after { width: 100%; }
+    .nav-links a:hover, .nav-links .nav-item:hover { color: #f59e0b; transform: translateY(-2px); }
+    
+    .cart-icon { position: relative; font-size: 1.3rem; }
+    .cart-count { position: absolute; top: -10px; right: -12px; background: #f59e0b; color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 30px; min-width: 18px; text-align: center; }
+    .mobile-menu-btn { display: none; font-size: 1.6rem; cursor: pointer; padding: 8px; transition: transform 0.3s; }
+    .mobile-menu-btn:hover { transform: rotate(90deg); }
+    .btn-primary { background: linear-gradient(135deg, #f59e0b, #d97706); border: none; padding: 10px 24px; border-radius: 40px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; justify-content: center; position: relative; overflow: hidden; }
+    .btn-primary::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: left 0.5s; }
+    .btn-primary:hover::before { left: 100%; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,158,11,0.4); }
+    .btn-outline { background: transparent; border: 1.5px solid #f59e0b; padding: 8px 20px; border-radius: 40px; color: #f59e0b; font-weight: 500; cursor: pointer; transition: all 0.3s ease; }
+    .btn-outline:hover { background: rgba(245,158,11,0.1); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(245,158,11,0.2); }
+    .btn-danger { background: #ef4444; border: none; padding: 8px 16px; border-radius: 40px; color: white; font-weight: 500; cursor: pointer; transition: all 0.3s; }
+    .btn-danger:hover { background: #dc2626; transform: scale(1.02); }
+    .btn-success { background: #10b981; border: none; padding: 8px 16px; border-radius: 40px; color: white; font-weight: 500; cursor: pointer; }
+    .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin: 40px 0; }
+    .product-card { border-radius: 20px; overflow: hidden; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; animation: fadeInUp 0.5s ease; }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .product-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 30px -12px rgba(245,158,11,0.3); }
+    .product-img { width: 100%; height: 220px; object-fit: cover; transition: transform 0.5s; }
+    .product-card:hover .product-img { transform: scale(1.05); }
+    .product-info { padding: 16px; }
+    .product-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 6px; }
+    .product-model { font-size: 0.8rem; color: #64748b; margin-bottom: 4px; }
+    .product-price { color: #f59e0b; font-weight: 700; font-size: 1.2rem; margin: 8px 0; }
+    .product-desc { font-size: 0.85rem; color: #64748b; margin: 8px 0; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .product-sizes { font-size: 0.75rem; color: #64748b; margin: 4px 0; }
+    .quick-view-btn { width: 100%; margin-top: 8px; background: transparent; border: 1px solid #f59e0b; color: #f59e0b; padding: 6px 12px; border-radius: 40px; font-size: 0.8rem; cursor: pointer; transition: all 0.3s; }
+    .quick-view-btn:hover { background: rgba(245,158,11,0.1); transform: translateY(-2px); }
+    .hero { border-radius: 28px; margin: 24px 0; padding: 40px 28px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 30px; animation: fadeIn 0.8s ease; background: transparent; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .hero-content { flex: 1; }
+    .hero-image-section { flex: 1; text-align: center; }
+    .hero-logo-img { max-width: 100%; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); transition: transform 0.3s ease; animation: slideInRight 0.8s ease; }
+    .hero-logo-img:hover { transform: scale(1.02); }
+    @keyframes slideInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
+    .hero-text h1 { font-size: clamp(1.8rem, 6vw, 2.8rem); font-weight: 800; line-height: 1.2; margin-bottom: 16px; background: linear-gradient(135deg, #f59e0b, #d97706); background-clip: text; -webkit-background-clip: text; color: transparent; animation: slideInLeft 0.6s ease; }
+    @keyframes slideInLeft { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
+    .camera-logo { font-size: 4rem; color: #f59e0b; animation: pulseCamera 2s ease-in-out infinite; display: inline-block; margin-bottom: 20px; }
+    @keyframes pulseCamera { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.9; } }
+    .service-tags { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+    .service-tag { background: rgba(245,158,11,0.1); padding: 8px 16px; border-radius: 40px; font-size: 0.85rem; font-weight: 500; transition: all 0.3s; }
+    .service-tag:hover { background: rgba(245,158,11,0.2); transform: translateY(-2px); }
+    footer { padding: 40px 0 24px; margin-top: 60px; animation: fadeInUp 0.6s ease; }
+    .footer-content { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px; }
+    .form-group { margin-bottom: 18px; }
+    input, select, textarea { width: 100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 20px; outline: none; transition: all 0.3s; font-size: 1rem; }
+    input:focus, textarea:focus { border-color: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,0.2); transform: translateY(-2px); }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); align-items: center; justify-content: center; z-index: 2000; padding: 16px; animation: fadeIn 0.3s ease; }
+    .modal-content { max-width: 600px; width: 100%; max-height: 90vh; overflow-y: auto; border-radius: 28px; padding: 24px; animation: scaleIn 0.3s ease; }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    .login-tabs { display: flex; gap: 12px; margin-bottom: 24px; border-bottom: 2px solid #e2e8f0; }
+    .login-tab { flex: 1; text-align: center; padding: 12px; cursor: pointer; font-weight: 600; color: #64748b; transition: all 0.3s; position: relative; }
+    .login-tab::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 2px; background: #f59e0b; transition: width 0.3s; }
+    .login-tab.active::after { width: 100%; }
+    .login-tab.active { color: #f59e0b; }
+    .login-form { display: none; animation: fadeIn 0.3s ease; }
+    .login-form.active { display: block; }
+    .toast-msg { position: fixed; bottom: 20px; right: 20px; left: 20px; max-width: 400px; margin: 0 auto; background: #1e293b; color: white; padding: 12px 20px; border-radius: 40px; z-index: 3000; text-align: center; animation: slideInUp 0.3s ease; }
+    @keyframes slideInUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .user-menu { position: relative; display: inline-block; }
+    .user-dropdown { display: none; position: absolute; right: 0; top: 100%; background: white; min-width: 180px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); border-radius: 16px; z-index: 1001; margin-top: 8px; animation: fadeInUp 0.2s ease; }
+    .user-menu:hover .user-dropdown { display: block; }
+    .user-dropdown a { display: block; padding: 12px 18px; color: #334155; text-decoration: none; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; }
+    .user-dropdown a:hover { background: #fffbeb; padding-left: 24px; }
+    .user-avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; cursor: pointer; transition: all 0.3s; animation: rotateIn 0.5s ease; }
+    @keyframes rotateIn { from { opacity: 0; transform: rotate(-180deg); } to { opacity: 1; transform: rotate(0); } }
+    .user-avatar.admin { background: #ef4444; }
+    .user-avatar.user { background: #f59e0b; }
+    .user-avatar:hover { transform: scale(1.1) rotate(5deg); }
+    .badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; display: inline-block; }
+    .badge-pending { background: #fed7aa; color: #7c2d12; }
+    .badge-shipped { background: #bae6fd; color: #075985; }
+    .badge-delivered { background: #dcfce7; color: #166534; }
+    .stats-card { padding: 20px; border-radius: 20px; flex: 1; min-width: 150px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: center; transition: all 0.3s; cursor: pointer; animation: fadeInUp 0.4s ease; }
+    .stats-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(245,158,11,0.2); }
+    .admin-table { width: 100%; border-radius: 20px; overflow-x: auto; margin: 20px 0; }
+    .admin-table table { width: 100%; border-collapse: collapse; min-width: 800px; }
+    .admin-table th, .admin-table td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 0.9rem; transition: all 0.2s; }
+    .admin-table tr:hover { background: rgba(245,158,11,0.05); }
+    .admin-table th { background: #f8fafc; font-weight: 600; }
+    .admin-dashboard-container { padding: 24px 0; min-height: 60vh; }
+    .admin-header { margin-bottom: 32px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .admin-title { font-size: 1.8rem; font-weight: 700; }
+    .admin-title i { color: #f59e0b; margin-right: 12px; }
+    .model-images { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .model-image-item { position: relative; width: 80px; height: 80px; border-radius: 12px; overflow: hidden; border: 2px solid #e2e8f0; cursor: pointer; }
+    .model-image-item img { width: 100%; height: 100%; object-fit: cover; }
+    .file-preview { max-width: 150px; margin-top: 8px; border-radius: 12px; overflow: hidden; }
+    .access-denied { text-align: center; padding: 80px 20px; }
+    .access-denied i { font-size: 64px; color: #ef4444; margin-bottom: 20px; }
+    .review-card { padding: 20px; border-radius: 24px; flex: 1; transition: all 0.3s; }
+    .review-card:hover { transform: translateY(-3px); }
+    .registration-table { margin-top: 30px; }
+    .registration-table table { width: 100%; border-collapse: collapse; background: white; border-radius: 20px; overflow: hidden; }
+    .registration-table th, .registration-table td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+    .registration-table th { background: #f8fafc; font-weight: 600; color: #f59e0b; }
+    @media (max-width: 768px) {
+      .nav-links { display: none; width: 100%; flex-direction: column; gap: 12px; padding: 16px 0; background: white; animation: slideDown 0.3s ease; }
+      .nav-links.show { display: flex; }
+      .mobile-menu-btn { display: block; }
+      .search-box { width: 100%; }
+      .search-input { width: 100%; }
+      .search-input:focus { width: 100%; }
+      .search-container { width: 100%; order: 1; margin-top: 8px; }
+      .nav-container { flex-direction: column; }
+      .product-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+      .product-img { height: 160px; }
+      .hero { padding: 28px 20px; text-align: center; flex-direction: column; }
+      .admin-title { font-size: 1.4rem; }
+      .logo-img { height: 35px; }
+      .shop-name-text { font-size: 1rem; }
+      .service-tags { justify-content: center; }
+      .search-results-modal { position: fixed; top: auto; left: 20px; right: 20px; width: auto; max-width: none; }
+      .registration-table { overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+  // ========== USER SYSTEM ==========
+  let users = JSON.parse(localStorage.getItem('new_gold_studio_users') || '[]');
+  let currentUser = JSON.parse(localStorage.getItem('new_gold_studio_current_user') || 'null');
+  
+  // ========== STORE DATA ==========
+  let shopData = {
+    products: [],
+    orders: [],
+    customers: [],
+    nextProductId: 10,
+    nextOrderId: 100
+  };
+
+  function initData() {
+    const stored = localStorage.getItem('new_gold_studio_db');
+    if(stored) {
+      shopData = JSON.parse(stored);
+    } else {
+      shopData.products = [
+        { id: 1, name: "Classic Walnut Frame", model: "NGS-WN-101", price: 899, category: "Wall Frames", image: "https://placehold.co/400x500/8B5A2B/FFFFFF?text=Walnut+Frame", modelImages: [], sizes: ["8x10 inches", "11x14 inches"], description: "Elegant walnut finish frame perfect for living room. Made from premium quality wood with a rich walnut stain.", stock: 25 },
+        { id: 2, name: "Minimalist Black Frame", model: "NGS-MB-202", price: 699, category: "Wall Frames", image: "https://placehold.co/400x500/1E1E1E/FFFFFF?text=Black+Frame", modelImages: [], sizes: ["8x10 inches", "12x16 inches"], description: "Sleek black frame for modern interiors. Matte finish that complements any contemporary decor.", stock: 30 },
+        { id: 3, name: "Gold Ornate Frame", model: "NGS-GO-303", price: 1299, category: "Photo Prints", image: "https://placehold.co/400x500/D4AF37/000000?text=Gold+Frame", modelImages: [], sizes: ["A4", "A3"], description: "Luxurious gold ornate frame for special memories. Handcrafted with intricate detailing.", stock: 15 },
+        { id: 4, name: "Custom Collage Frame", model: "NGS-CC-404", price: 1599, category: "Custom Frames", image: "https://placehold.co/400x500/90A955/FFFFFF?text=Custom+Collage", modelImages: [], sizes: ["3 Photo", "5 Photo"], description: "Create your own collage with multiple photo slots. Perfect for family photos and special moments.", stock: 10 },
+        { id: 5, name: "Rustic Wood Frame", model: "NGS-RW-505", price: 1099, category: "Wall Frames", image: "https://placehold.co/400x500/CDA776/FFFFFF?text=Rustic+Wood", modelImages: [], sizes: ["10x12 inches", "12x16 inches"], description: "Farmhouse style rustic wood frame. Distressed finish for a vintage look.", stock: 20 },
+        { id: 6, name: "Panoramic Frame", model: "NGS-PN-606", price: 1899, category: "Custom Frames", image: "https://placehold.co/400x500/2C5F8A/FFFFFF?text=Panoramic", modelImages: [], sizes: ["16x24 inches"], description: "Perfect for landscape and group photos. Wide format frame for stunning panoramic shots.", stock: 8 }
+      ];
+      shopData.orders = [];
+      shopData.customers = [];
+      shopData.nextProductId = 7;
+      shopData.nextOrderId = 1001;
+      saveData();
+    }
+    if(users.length === 0) {
+      users = [{ id: 1, name: "Admin User", email: "admin@newgoldstudio.com", password: "admin123", phone: "8122564741", isAdmin: true, createdAt: new Date().toISOString() }];
+      saveUsers();
+    }
+  }
+  
+  function saveData() { localStorage.setItem('new_gold_studio_db', JSON.stringify(shopData)); }
+  function saveUsers() { localStorage.setItem('new_gold_studio_users', JSON.stringify(users)); }
+  function saveCurrentUser() { localStorage.setItem('new_gold_studio_current_user', JSON.stringify(currentUser)); }
+
+  let currentModal = null;
+  function closeModal() { if(currentModal) { currentModal.remove(); currentModal = null; } }
+  
+  // ========== SEARCH FUNCTION ==========
+  function performSearch(query) {
+    if(!query.trim()) return [];
+    const searchTerm = query.toLowerCase().trim();
+    return shopData.products.filter(product => 
+      product.name.toLowerCase().includes(searchTerm) ||
+      (product.model && product.model.toLowerCase().includes(searchTerm)) ||
+      product.category.toLowerCase().includes(searchTerm) ||
+      product.description.toLowerCase().includes(searchTerm)
+    );
+  }
+  
+  function showSearchResults(query) {
+    const results = performSearch(query);
+    const resultsContainer = document.getElementById('searchResults');
+    if(!resultsContainer) return;
+    
+    if(results.length === 0) {
+      resultsContainer.innerHTML = `<div class="no-results"><i class="fas fa-search"></i> No products found for "${query}"</div>`;
+    } else {
+      resultsContainer.innerHTML = `
+        <div class="search-results-header"><i class="fas fa-box"></i> ${results.length} product(s) found</div>
+        <div class="search-results-list">
+          ${results.map(product => `
+            <div class="search-result-item" onclick="window.viewProductDetail(${product.id}); document.getElementById('searchResults').style.display='none';">
+              <img src="${product.image}" class="search-result-img" alt="${product.name}">
+              <div class="search-result-info">
+                <div class="search-result-name">${product.name}</div>
+                <div class="search-result-model">Model: ${product.model}</div>
+                <div class="search-result-price">₹${product.price}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+    resultsContainer.style.display = 'block';
+  }
+  
+  function closeSearchResults() {
+    const resultsContainer = document.getElementById('searchResults');
+    if(resultsContainer) resultsContainer.style.display = 'none';
+  }
+  
+  // ========== AUTH FUNCTIONS ==========
+  function showLoginModal() {
+    const modalHtml = `<div id="authModal" class="modal" style="display: flex;"><div class="modal-content"><div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;"><h3><i class="fas fa-camera"></i> Login to New Gold Studio</h3><button onclick="window.closeModal()" style="background: none; border: none; font-size: 28px; cursor: pointer;">&times;</button></div><div class="login-tabs"><div class="login-tab active" data-tab="user">👤 Customer Login</div><div class="login-tab admin" data-tab="admin">👑 Admin Login</div></div><div id="userLoginForm" class="login-form active"><form id="userLoginFormElement"><div class="form-group"><input type="email" id="userEmail" placeholder="Email Address" required></div><div class="form-group"><input type="password" id="userPassword" placeholder="Password" required></div><button type="submit" class="btn-primary" style="width: 100%;"><i class="fas fa-sign-in-alt"></i> Login as Customer</button></form><p style="text-align: center; margin-top: 16px;"><a href="#" onclick="window.showSignupModal(); return false;" style="color: #f59e0b;">Create New Account</a></p></div><div id="adminLoginForm" class="login-form"><form id="adminLoginFormElement"><div class="form-group"><input type="email" id="adminEmail" placeholder="Admin Email" required></div><div class="form-group"><input type="password" id="adminPassword" placeholder="Admin Password" required></div><button type="submit" class="btn-primary" style="width: 100%; background: #ef4444;"><i class="fas fa-shield-alt"></i> Login as Admin</button></form></div></div></div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    currentModal = document.getElementById('authModal');
+    document.querySelectorAll('.login-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        const type = tab.dataset.tab;
+        document.getElementById('userLoginForm').classList.toggle('active', type === 'user');
+        document.getElementById('adminLoginForm').classList.toggle('active', type === 'admin');
+      });
+    });
+    document.getElementById('userLoginFormElement').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('userEmail').value;
+      const password = document.getElementById('userPassword').value;
+      const user = users.find(u => u.email === email && u.password === password && !u.isAdmin);
+      if(user) { currentUser = { ...user }; delete currentUser.password; saveCurrentUser(); showToast(`Welcome ${user.name}!`); closeModal(); renderPage(); } 
+      else { showToast('Invalid credentials. Please sign up first.', true); }
+    });
+    document.getElementById('adminLoginFormElement').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = document.getElementById('adminEmail').value;
+      const password = document.getElementById('adminPassword').value;
+      const admin = users.find(u => u.email === email && u.password === password && u.isAdmin);
+      if(admin) { currentUser = { ...admin }; delete currentUser.password; saveCurrentUser(); showToast(`Welcome Admin ${admin.name}!`); closeModal(); renderPage(); } 
+      else { showToast('Invalid admin credentials!', true); }
+    });
+  }
+  
+  function showSignupModal() {
+    const modalHtml = `<div id="authModal" class="modal" style="display: flex;"><div class="modal-content"><div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;"><h3><i class="fas fa-camera"></i> Create Customer Account</h3><button onclick="window.closeModal()" style="background: none; border: none; font-size: 28px; cursor: pointer;">&times;</button></div><form id="signupForm"><div class="form-group"><input type="text" id="signupName" placeholder="Full Name" required></div><div class="form-group"><input type="email" id="signupEmail" placeholder="Email Address" required></div><div class="form-group"><input type="tel" id="signupPhone" placeholder="Phone Number"></div><div class="form-group"><input type="password" id="signupPassword" placeholder="Password (min 6 chars)" required></div><div class="form-group"><input type="password" id="signupConfirmPassword" placeholder="Confirm Password" required></div><button type="submit" class="btn-primary" style="width: 100%;"><i class="fas fa-user-plus"></i> Create Account</button></form><p style="text-align: center; margin-top: 16px;">Already have an account? <a href="#" onclick="window.showLoginModal(); return false;" style="color: #f59e0b;">Login</a></p></div></div>`;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    currentModal = document.getElementById('authModal');
+    document.getElementById('signupForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signupName').value;
+      const email = document.getElementById('signupEmail').value;
+      const phone = document.getElementById('signupPhone').value;
+      const password = document.getElementById('signupPassword').value;
+      const confirm = document.getElementById('signupConfirmPassword').value;
+      if(password.length < 6) return showToast('Password must be 6+ chars', true);
+      if(password !== confirm) return showToast('Passwords do not match', true);
+      if(users.find(u => u.email === email)) return showToast('Email already registered', true);
+      const newUser = { id: users.length + 1, name, email, password, phone, isAdmin: false, createdAt: new Date().toISOString() };
+      users.push(newUser); saveUsers();
+      currentUser = { ...newUser }; delete currentUser.password;
+      saveCurrentUser();
+      showToast('Account created! Welcome to New Gold Studio!');
+      closeModal(); renderPage();
+    });
+  }
+  
+  function logoutUser() { currentUser = null; saveCurrentUser(); cart = []; saveCart(); showToast('Logged out successfully!'); navigate('home'); }
+  function showUserProfile() { if(!currentUser) return; closeModal();
+    const html = `<div id="profileModal" class="modal" style="display: flex;"><div class="modal-content"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px"><h3><i class="fas fa-user-circle"></i> My Profile</h3><button onclick="window.closeModal()" style="background:none; border:none; font-size:24px; cursor:pointer">&times;</button></div><div class="form-group"><label>Full Name</label><input value="${currentUser.name}" readonly></div><div class="form-group"><label>Email Address</label><input value="${currentUser.email}" readonly></div><div class="form-group"><label>Phone Number</label><input value="${currentUser.phone || 'Not provided'}" readonly></div><div class="form-group"><label>Account Type</label><input value="${currentUser.isAdmin ? 'Administrator' : 'Customer'}" readonly></div><div class="form-group"><label>Member Since</label><input value="${new Date(currentUser.createdAt).toLocaleDateString()}" readonly></div><button class="btn-primary" style="width:100%; margin-top:8px" onclick="window.closeModal()">Close</button></div></div>`;
+    document.body.insertAdjacentHTML('beforeend', html); currentModal = document.getElementById('profileModal');
+  }
+  
+  function showUserOrders() {
+    if(!currentUser) { showToast('Please login first', true); showLoginModal(); return; }
+    const userOrders = shopData.orders.filter(o => o.customer.email === currentUser.email);
+    if(userOrders.length === 0) { showToast('No orders found', true); return; }
+    const ordersHtml = userOrders.map(o => `<div class="review-card" style="margin-bottom:12px"><div style="display:flex; justify-content:space-between; flex-wrap:wrap"><div><strong>Order #${o.id}</strong><br>Date: ${new Date(o.date).toLocaleDateString()}<br>Total: ₹${o.total}</div><div><span class="badge badge-${o.status.toLowerCase()}">${o.status}</span></div></div><div style="margin-top:12px"><strong>Items:</strong> ${o.items.map(i => `${i.name} (${i.size}) x${i.quantity}`).join(', ')}</div><button class="btn-outline btn-sm" style="margin-top:12px" onclick="window.viewOrderDetails(${o.id})">View Details</button></div>`).join('');
+    const html = `<div id="ordersModal" class="modal" style="display: flex;"><div class="modal-content" style="max-width:600px"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px"><h3><i class="fas fa-shopping-bag"></i> My Orders</h3><button onclick="window.closeModal()" style="background:none; border:none; font-size:24px; cursor:pointer">&times;</button></div>${ordersHtml}</div></div>`;
+    document.body.insertAdjacentHTML('beforeend', html); currentModal = document.getElementById('ordersModal');
+  }
+
+  // ========== CART FUNCTIONS ==========
+  let cart = JSON.parse(localStorage.getItem('new_gold_studio_cart') || '[]');
+  function saveCart() { localStorage.setItem('new_gold_studio_cart', JSON.stringify(cart)); updateCartCount(); }
+  function updateCartCount() { document.querySelectorAll('.cart-count').forEach(el => { if(el) el.innerText = cart.reduce((s,i)=>s+i.quantity,0); }); }
+  function showToast(msg, isError = false) { let toast = document.createElement('div'); toast.className = 'toast-msg'; toast.style.background = isError ? '#ef4444' : '#1e293b'; toast.innerText = msg; document.body.appendChild(toast); setTimeout(() => toast.remove(), 2500); }
+
+  let currentPage = 'home';
+  function navigate(page) { currentPage = page; renderPage(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  let selectedProductForDetail = null;
+  function viewProductDetail(id) { selectedProductForDetail = shopData.products.find(p => p.id == id); if(selectedProductForDetail) navigate('product-detail'); }
+  function addToCart(product, size, qty = 1, fileData = null, fileName = null) { 
+    const existing = cart.find(i => i.id === product.id && i.selectedSize === size);
+    if(existing) existing.quantity += qty; else cart.push({ ...product, selectedSize: size || 'Standard', quantity: qty, uploadedFile: fileData, uploadedFileName: fileName }); 
+    saveCart(); showToast(`${product.name} added to cart!`); renderPage(); 
+  }
+  function removeCartItem(i) { cart.splice(i,1); saveCart(); renderPage(); }
+  function updateCartQty(i, q) { if(q <= 0) removeCartItem(i); else { cart[i].quantity = q; saveCart(); renderPage(); } }
+  function handleFileUpload(event, callback) {
+    const file = event.target.files[0];
+    if(file) { const reader = new FileReader(); reader.onload = function(e) { callback(e.target.result, file.name, file.type); }; reader.readAsDataURL(file); showToast(`File "${file.name}" uploaded!`); }
+  }
+
+  // ========== ADMIN FUNCTIONS ==========
+  function adminDeleteProduct(id) { if(confirm('Delete this product?')) { shopData.products = shopData.products.filter(p => p.id != id); saveData(); showToast('Product deleted'); renderPage(); } }
+  function adminUpdateOrderStatus(id, status) { const o = shopData.orders.find(o => o.id == id); if(o) { o.status = status; saveData(); showToast(`Order #${id} updated to ${status}`); renderPage(); } }
+  function adminDeleteOrder(id) { if(confirm('Delete this order?')) { shopData.orders = shopData.orders.filter(o => o.id != id); saveData(); showToast('Order deleted'); renderPage(); } }
+  function uploadModelImage(productId) {
+    const product = shopData.products.find(p => p.id == productId);
+    if(!product) return;
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/jpeg,image/png,image/jpg';
+    fileInput.onchange = function(e) {
+      const file = e.target.files[0];
+      if(file) {
+        const reader = new FileReader();
+        reader.onload = function(ev) {
+          if(!product.modelImages) product.modelImages = [];
+          product.modelImages.push(ev.target.result);
+          saveData();
+          showToast('Model image uploaded successfully!');
+          renderPage();
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+    fileInput.click();
+  }
+  function deleteModelImage(productId, imageIndex) {
+    const product = shopData.products.find(p => p.id == productId);
+    if(product && product.modelImages) {
+      product.modelImages.splice(imageIndex, 1);
+      saveData();
+      showToast('Model image deleted!');
+      renderPage();
+    }
+  }
+  function showAddProductModal() {
+    const html = `<div id="addModal" class="modal" style="display: flex;"><div class="modal-content"><h3><i class="fas fa-plus-circle"></i> Add New Product</h3><form id="addForm"><div class="form-group"><input id="pName" placeholder="Product Name" required></div><div class="form-group"><input id="pModel" placeholder="Model Number (e.g., NGS-WN-101)" required></div><div class="form-group"><input id="pPrice" type="number" placeholder="Price (₹)" required></div><div class="form-group"><input id="pStock" type="number" placeholder="Stock Quantity" required></div><div class="form-group"><select id="pCategory"><option>Wall Frames</option><option>Photo Prints</option><option>Custom Frames</option></select></div><div class="form-group"><input id="pSizes" placeholder="Sizes (comma separated)"></div><div class="form-group"><textarea id="pDesc" rows="2" placeholder="Description"></textarea></div><div class="form-group"><input id="pImage" placeholder="Main Image URL (optional)"></div><div style="display:flex; gap:12px; justify-content:flex-end"><button type="submit" class="btn-primary">Add Product</button><button type="button" class="btn-outline" onclick="window.closeModal()">Cancel</button></div></form></div></div>`;
+    document.body.insertAdjacentHTML('beforeend', html); currentModal = document.getElementById('addModal');
+    document.getElementById('addForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('pName').value;
+      const model = document.getElementById('pModel').value;
+      const price = parseInt(document.getElementById('pPrice').value);
+      const stock = parseInt(document.getElementById('pStock').value);
+      const category = document.getElementById('pCategory').value;
+      const sizes = document.getElementById('pSizes').value ? document.getElementById('pSizes').value.split(',').map(s=>s.trim()) : ['Standard'];
+      const description = document.getElementById('pDesc').value || 'Beautiful frame';
+      let image = document.getElementById('pImage').value;
+      if(!image) image = `https://placehold.co/400x500/e2e8f0/f59e0b?text=${encodeURIComponent(name)}`;
+      shopData.products.push({ id: shopData.nextProductId++, name, model, price, stock, category, image, sizes, description, modelImages: [] });
+      saveData(); showToast('Product added successfully!'); closeModal(); renderPage();
+    });
+  }
+  function downloadFile(fileData, fileName) { const link = document.createElement('a'); link.href = fileData; link.download = fileName || 'uploaded_file'; document.body.appendChild(link); link.click(); document.body.removeChild(link); showToast('Download started!'); }
+  function viewOrderDetails(id) {
+    const order = shopData.orders.find(o => o.id == id);
+    if(!order) return;
+    const itemsHtml = order.items.map((item) => `<div style="border-bottom:1px solid #e2e8f0; padding:12px 0"><div><strong>${item.name}</strong><br>Model: ${item.model || 'N/A'} | Size: ${item.size} | Qty: ${item.quantity} | Price: ₹${item.price * item.quantity}</div>${item.uploadedFile ? `<div class="file-preview"><strong>Uploaded File:</strong> ${item.uploadedFileName || 'Document'}<br>${item.uploadedFileType?.startsWith('image/') ? `<img src="${item.uploadedFile}" style="max-width:150px; border-radius:8px; margin-top:8px">` : `<a href="${item.uploadedFile}" target="_blank" class="btn-outline btn-sm">View Document</a>`}<br><button class="btn-success btn-sm" style="margin-top:8px" onclick="window.downloadFile('${item.uploadedFile}', '${item.uploadedFileName || 'file'}')"><i class="fas fa-download"></i> Download</button></div>` : ''}</div>`).join('');
+    const html = `<div id="orderModal" class="modal" style="display: flex;"><div class="modal-content" style="max-width:650px"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px"><h3><i class="fas fa-receipt"></i> Order Details #${order.id}</h3><button onclick="window.closeModal()" style="background:none; border:none; font-size:24px; cursor:pointer">&times;</button></div><div class="review-card" style="margin:12px 0"><p><strong>${order.customer.name}</strong><br>${order.customer.email}<br>${order.customer.phone}<br>${order.customer.address}</p><p>Payment: ${order.payment} | Status: <span class="badge badge-${order.status.toLowerCase()}">${order.status}</span><br>Order Date: ${new Date(order.date).toLocaleString()}</p></div><h4>Order Items</h4>${itemsHtml}<div style="margin-top:12px; text-align:right; font-weight:bold; font-size:1.2rem">Total: ₹${order.total}</div><button class="btn-primary" style="width:100%; margin-top:16px" onclick="window.closeModal()">Close</button></div></div>`;
+    document.body.insertAdjacentHTML('beforeend', html); currentModal = document.getElementById('orderModal');
+  }
+  function placeOrder(cust, payment, items, total) {
+    if(!currentUser) { showToast('Please login to place order!', true); showLoginModal(); return; }
+    const newOrder = { id: shopData.nextOrderId++, customer: { ...cust, email: currentUser.email }, items: items.map(i => ({ id:i.id, name:i.name, model:i.model, price:i.price, quantity:i.quantity, size:i.selectedSize, uploadedFile:i.uploadedFile, uploadedFileName:i.uploadedFileName, uploadedFileType:i.uploadedFileType })), total, payment, status: 'Pending', date: new Date().toISOString() };
+    shopData.orders.unshift(newOrder); saveData(); cart = []; saveCart(); showToast(`Order #${newOrder.id} placed successfully!`); navigate('home');
+  }
+
+  // ========== RENDER FUNCTIONS ==========
+  function renderPage() {
+    const app = document.getElementById('app');
+    if(!app) return;
+    app.innerHTML = `
+      <div class="navbar"><div class="nav-container"><div class="logo" onclick="navigate('home')"><img src="https://uploads.onecompiler.io/43ntufbph/44h9xr25h/Screenshot%202026-03-24%20132633.png" alt="New Gold Studio Logo" class="logo-img"><span class="shop-name-text">New Gold Studio</span></div><div class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></div><div class="search-container"><div class="search-box"><input type="text" id="searchInput" class="search-input" placeholder="Search by name, model or category..." onkeyup="window.showSearchResults(this.value)"><button class="search-btn" onclick="window.showSearchResults(document.getElementById('searchInput').value)"><i class="fas fa-search"></i> Search</button></div><div id="searchResults" class="search-results-modal"></div></div><div class="nav-links" id="navLinks"><a onclick="navigate('home')"><i class="fas fa-home"></i> Home</a><a onclick="navigate('shop')"><i class="fas fa-store"></i> Shop</a><a onclick="navigate('about')"><i class="fas fa-info-circle"></i> About</a><a onclick="navigate('contact')"><i class="fas fa-envelope"></i> Contact</a><a onclick="navigate('cart')" class="cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">${cart.reduce((s,i)=>s+i.quantity,0)}</span></a>${currentUser ? `<div class="user-menu"><div class="user-avatar ${currentUser.isAdmin ? 'admin' : 'user'}">${currentUser.name.charAt(0).toUpperCase()}</div><div class="user-dropdown"><a onclick="window.showUserProfile()"><i class="fas fa-user"></i> My Profile</a><a onclick="window.showUserOrders()"><i class="fas fa-shopping-bag"></i> My Orders</a>${currentUser.isAdmin ? '<a onclick="window.navigate(\'admin-dashboard\')"><i class="fas fa-shield-alt"></i> Admin Panel</a>' : ''}<a onclick="window.logoutUser()"><i class="fas fa-sign-out-alt"></i> Logout</a></div></div>` : `<a onclick="window.showLoginModal()"><i class="fas fa-user"></i> Login / Sign Up</a>`}</div></div></div>
+      <div class="container" id="pageContent"></div>
+      <footer><div class="container footer-content"><div><i class="fas fa-camera"></i> <strong>New Gold Studio</strong><br>Mariyanatha Puram, Dindigul, Tamil Nadu<br>📞 8122564741<br>✉️ josjosuva72@gmail.com</div><div><strong>Quick Links</strong><br><a onclick="navigate('home')" style="color:#cbd5e1; cursor:pointer">Home</a> | <a onclick="navigate('shop')" style="color:#cbd5e1; cursor:pointer">Shop</a> | <a onclick="navigate('about')" style="color:#cbd5e1; cursor:pointer">About</a></div><div><strong>Payment</strong><br>Razorpay | UPI | Cash on Delivery</div></div><div class="container" style="text-align:center; margin-top:32px;">© 2025 New Gold Studio – Capture memories in gold <i class="fas fa-camera"></i></div></footer>`;
+    document.getElementById('mobileMenuBtn')?.addEventListener('click', () => document.getElementById('navLinks').classList.toggle('show'));
+    document.addEventListener('click', function(e) {
+      if(!e.target.closest('.search-container')) closeSearchResults();
+    });
+    renderPageContent();
+    updateCartCount();
+  }
+  
+  function renderPageContent() {
+    const c = document.getElementById('pageContent');
+    if(!c) return;
+    if(currentPage === 'home') renderHome(c);
+    else if(currentPage === 'shop') renderShop(c);
+    else if(currentPage === 'product-detail') renderProductDetail(c);
+    else if(currentPage === 'cart') renderCart(c);
+    else if(currentPage === 'checkout') renderCheckout(c);
+    else if(currentPage === 'about') renderAbout(c);
+    else if(currentPage === 'contact') renderContact(c);
+    else if(currentPage === 'admin-dashboard') renderAdminDashboard(c);
+    else renderHome(c);
+  }
+  
+  function renderHome(c) {
+    c.innerHTML = `
+      <div class="hero">
+        <div class="hero-content">
+          <div class="camera-logo"><i class="fas fa-camera"></i></div>
+          <div class="hero-text">
+            <h1>Capture Memories in<br>Golden Frames</h1>
+            <p>Premium quality frames with unique model numbers for easy identification</p>
+          </div>
+          <div class="service-tags">
+            <span class="service-tag"><i class="fas fa-camera"></i> Wedding Photography</span>
+            <span class="service-tag"><i class="fas fa-print"></i> Printing Services</span>
+            <span class="service-tag"><i class="fas fa-image"></i> Photo Printing</span>
+            <span class="service-tag"><i class="fas fa-frame"></i> Frame Works</span>
+            <span class="service-tag"><i class="fas fa-edit"></i> Editing</span>
+            <span class="service-tag"><i class="fas fa-layer-group"></i> Lamination</span>
+            <span class="service-tag"><i class="fas fa-photo-video"></i> Photo Frames</span>
+          </div>
+          <div style="margin-top: 30px;">
+            <button class="btn-primary" onclick="navigate('shop')"><i class="fas fa-shopping-bag"></i> Shop Now</button>
+            <button class="btn-outline" style="margin-left: 12px;" onclick="navigate('contact')"><i class="fas fa-headset"></i> Contact Us</button>
+          </div>
+        </div>
+        <div class="hero-image-section">
+          <img src="https://uploads.onecompiler.io/43ntufbph/44h9xr25h/001.png" alt="New Gold Studio" class="hero-logo-img">
+        </div>
+      </div>
+      <h2><i class="fas fa-star"></i> Featured Frames</h2>
+      <div class="product-grid" id="featuredGrid"></div>
+      <h2><i class="fas fa-comments"></i> Customer Reviews</h2>
+      <div style="display:flex; gap:20px; flex-wrap:wrap; margin:20px 0">
+        <div class="review-card"><i class="fas fa-star" style="color:#f59e0b"></i><i class="fas fa-star" style="color:#f59e0b"></i><i class="fas fa-star" style="color:#f59e0b"></i><i class="fas fa-star" style="color:#f59e0b"></i><i class="fas fa-star" style="color:#f59e0b"></i><br>"Beautiful craftsmanship! Love my custom frame."<br>- Priya</div>
+        <div class="review-card"><i class="fas fa-star" style="color:#f59e0b"></i><i class="fas fa-star" style="color:#f59e0b"></i><i class="fas fa-star" style="color:#f59e0b"></i><i class="fas fa-star" style="color:#f59e0b"></i><i class="fas fa-star" style="color:#f59e0b"></i><br>"Fast delivery and excellent quality."<br>- Karthik</div>
+      </div>
+    `;
+    const grid = document.getElementById('featuredGrid');
+    if(grid) grid.innerHTML = shopData.products.slice(0,6).map(p => `
+      <div class="product-card" onclick="viewProductDetail(${p.id})">
+        <img class="product-img" src="${p.image}" alt="${p.name}">
+        <div class="product-info">
+          <div class="product-title">${p.name}</div>
+          <div class="product-model"><i class="fas fa-tag"></i> Model: ${p.model || 'N/A'}</div>
+          <div class="product-price">₹${p.price}</div>
+          <div class="product-desc">${p.description.substring(0, 80)}${p.description.length > 80 ? '...' : ''}</div>
+          <div class="product-sizes"><i class="fas fa-ruler"></i> Sizes: ${p.sizes?.join(', ') || 'Standard'}</div>
+          <button class="btn-primary btn-sm" style="width:100%; margin-top:8px" onclick="event.stopPropagation(); addToCart({id:${p.id}, name:'${p.name}', model:'${p.model || ''}', price:${p.price}, image:'${p.image}'},'Standard',1)"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+          <button class="quick-view-btn" onclick="event.stopPropagation(); viewProductDetail(${p.id})"><i class="fas fa-eye"></i> View Details</button>
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  function renderShop(c) {
+    let filter = '';
+    c.innerHTML = `<div style="margin:24px 0"><select id="catFilter" style="padding:10px 20px; border-radius:40px; border:1px solid #e2e8f0; background:transparent"><option value="">All Categories</option><option>Wall Frames</option><option>Photo Prints</option><option>Custom Frames</option></select></div><div class="product-grid" id="shopGrid"></div>`;
+    const render = () => { const grid = document.getElementById('shopGrid'); if(grid) grid.innerHTML = shopData.products.filter(p => !filter || p.category === filter).map(p => `<div class="product-card"><img class="product-img" src="${p.image}"><div class="product-info"><div class="product-title">${p.name}</div><div class="product-model"><i class="fas fa-tag"></i> Model: ${p.model || 'N/A'}</div><div class="product-price">₹${p.price}</div><div class="product-desc">${p.description.substring(0, 80)}${p.description.length > 80 ? '...' : ''}</div><div class="product-sizes" style="font-size:0.75rem; color:#64748b; margin:4px 0"><i class="fas fa-ruler"></i> Sizes: ${p.sizes?.join(', ') || 'Standard'}</div><button class="btn-primary btn-sm" style="width:100%" onclick="addToCart({id:${p.id}, name:'${p.name}', model:'${p.model || ''}', price:${p.price}, image:'${p.image}'},'Standard',1)"><i class="fas fa-cart-plus"></i> Add to Cart</button><button class="btn-outline btn-sm" style="width:100%; margin-top:6px" onclick="viewProductDetail(${p.id})"><i class="fas fa-eye"></i> View Details</button></div></div>`).join(''); };
+    document.getElementById('catFilter')?.addEventListener('change', e => { filter = e.target.value; render(); });
+    render();
+  }
+  
+  function renderProductDetail(c) {
+    if(!selectedProductForDetail) return navigate('shop');
+    const p = selectedProductForDetail;
+    let uploadedFileData = null, uploadedFileName = null, uploadedFileType = null;
+    const modelImagesHtml = p.modelImages && p.modelImages.length > 0 ? `<div style="margin-top:16px"><strong><i class="fas fa-images"></i> Model Gallery:</strong><div class="model-images">${p.modelImages.map((img, idx) => `<div class="model-image-item"><img src="${img}" alt="Model view ${idx+1}"></div>`).join('')}</div></div>` : '';
+    c.innerHTML = `<div style="display:flex; flex-wrap:wrap; gap:30px; margin:40px 0"><div><img src="${p.image}" style="max-width:100%; border-radius:24px; width:350px">${modelImagesHtml}</div><div style="flex:1"><h2><i class="fas fa-frame"></i> ${p.name}</h2><div style="color:#64748b; margin:8px 0"><strong><i class="fas fa-barcode"></i> Model Number:</strong> ${p.model || 'NGS-XXX'}</div><p class="product-price" style="font-size:1.8rem">₹${p.price}</p><p><i class="fas fa-info-circle"></i> ${p.description}</p><div class="form-group"><label><i class="fas fa-arrows-alt"></i> Select Size:</label><select id="sizeSelect">${(p.sizes || ['Standard']).map(s=>`<option>${s}</option>`).join('')}</select></div><div class="form-group"><label><i class="fas fa-upload"></i> Upload Photo/Document:</label><input type="file" id="fileUpload" accept="image/jpeg,image/png,image/jpg,application/pdf"><div id="filePreview" style="margin-top:12px"></div></div><div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap"><button class="btn-primary" id="addBtn"><i class="fas fa-cart-plus"></i> Add to Cart</button><button class="btn-outline" id="buyBtn"><i class="fas fa-bolt"></i> Buy Now</button></div></div></div>`;
+    document.getElementById('fileUpload')?.addEventListener('change', e => handleFileUpload(e, (data, name, type) => { uploadedFileData = data; uploadedFileName = name; uploadedFileType = type; const preview = document.getElementById('filePreview'); if(type.startsWith('image/')) preview.innerHTML = `<img src="${data}" style="max-width:150px; border-radius:12px; border:2px solid #f59e0b">`; else preview.innerHTML = `<div style="padding:12px; background:#f1f5f9; border-radius:12px"><i class="fas fa-file"></i> ${name}</div>`; }));
+    document.getElementById('addBtn')?.addEventListener('click', () => addToCart({id:p.id, name:p.name, model:p.model, price:p.price}, document.getElementById('sizeSelect').value, 1, uploadedFileData, uploadedFileName, uploadedFileType));
+    document.getElementById('buyBtn')?.addEventListener('click', () => { addToCart({id:p.id, name:p.name, model:p.model, price:p.price}, document.getElementById('sizeSelect').value, 1, uploadedFileData, uploadedFileName, uploadedFileType); navigate('checkout'); });
+  }
+  
+  function renderCart(c) {
+    if(cart.length === 0) { c.innerHTML = `<div style="text-align:center; margin:80px"><i class="fas fa-shopping-cart" style="font-size:64px; color:#f59e0b"></i><h3>Your Cart is Empty</h3><button class="btn-primary" onclick="navigate('shop')"><i class="fas fa-store"></i> Continue Shopping</button></div>`; return; }
+    let total = 0;
+    c.innerHTML = `<h2><i class="fas fa-shopping-cart"></i> Shopping Cart</h2>${cart.map((item,i) => { total += item.price * item.quantity; return `<div class="review-card" style="display:flex; justify-content:space-between; margin:12px 0; padding:16px; flex-wrap:wrap; align-items:center"><div><strong>${item.name}</strong><br><small><i class="fas fa-tag"></i> Model: ${item.model || 'N/A'} | <i class="fas fa-ruler"></i> Size: ${item.selectedSize}</small><br>₹${item.price} x <input type="number" min="1" value="${item.quantity}" style="width:60px" data-index="${i}" class="qty-input"></div><div>₹${item.price * item.quantity}</div><button class="btn-danger btn-sm" data-remove="${i}"><i class="fas fa-trash"></i> Remove</button></div>`; }).join('')}<div style="text-align:right; font-size:1.4rem; font-weight:bold; margin:20px 0">Total: ₹${total}</div><button class="btn-primary" id="checkoutBtn"><i class="fas fa-credit-card"></i> Proceed to Checkout</button>`;
+    document.querySelectorAll('.qty-input').forEach(inp => inp.addEventListener('change', e => updateCartQty(parseInt(inp.dataset.index), parseInt(inp.value))));
+    document.querySelectorAll('[data-remove]').forEach(btn => btn.addEventListener('click', e => removeCartItem(parseInt(btn.dataset.remove))));
+    document.getElementById('checkoutBtn')?.addEventListener('click', () => navigate('checkout'));
+  }
+  
+  function renderCheckout(c) {
+    if(cart.length===0) return navigate('cart');
+    const total = cart.reduce((s,i)=>s+i.price*i.quantity,0);
+    c.innerHTML = `<div style="max-width:500px; margin:40px auto;" class="review-card"><h2><i class="fas fa-credit-card"></i> Checkout</h2><form id="checkoutForm"><div class="form-group"><input type="text" id="fullName" value="${currentUser?.name||''}" placeholder="Full Name" required></div><div class="form-group"><input type="email" id="email" value="${currentUser?.email||''}" placeholder="Email Address" required></div><div class="form-group"><input type="tel" id="phone" value="${currentUser?.phone||''}" placeholder="Phone Number" required></div><div class="form-group"><textarea id="address" rows="3" placeholder="Complete Delivery Address" required></textarea></div><div class="form-group"><select id="payment"><option>Cash on Delivery</option><option>UPI / Razorpay</option></select></div><div style="font-size:1.2rem; font-weight:bold; margin:16px 0">Total Amount: ₹${total}</div><button type="submit" class="btn-primary" style="width:100%"><i class="fas fa-check-circle"></i> Place Order</button></form></div>`;
+    document.getElementById('checkoutForm').addEventListener('submit', e => { e.preventDefault(); placeOrder({ name: document.getElementById('fullName').value, email: document.getElementById('email').value, phone: document.getElementById('phone').value, address: document.getElementById('address').value }, document.getElementById('payment').value, [...cart], total); });
+  }
+  
+  function renderAbout(c) { c.innerHTML = `<div class="review-card" style="padding:40px; margin:40px 0"><h2><i class="fas fa-camera"></i> About New Gold Studio</h2><p style="margin-top:16px">Established in Dindigul, Tamil Nadu, New Gold Studio provides premium quality frames, photo prints, and custom designs with over 10+ years of experience. Each frame comes with a unique model number for easy identification and tracking.</p><h3 style="margin-top:24px"><i class="fas fa-star"></i> Our Services</h3><ul style="margin-left:20px; margin-top:12px"><li><i class="fas fa-check-circle"></i> Custom Size Frames with Model Numbers</li><li><i class="fas fa-print"></i> Photo Printing Services</li><li><i class="fas fa-images"></i> Collage Frames</li><li><i class="fas fa-truck"></i> Same Day Delivery in Dindigul</li><li><i class="fas fa-upload"></i> Document Upload for Custom Orders</li><li><i class="fas fa-images"></i> Model Gallery Images for Each Frame</li></ul><h3 style="margin-top:24px"><i class="fas fa-gem"></i> Why Choose Us?</h3><p>Quality materials, skilled craftsmanship, and attention to detail make every frame special. We ensure your memories are preserved in gold for generations.</p></div>`; }
+  
+  function renderContact(c) { c.innerHTML = `<div style="display:flex; flex-wrap:wrap; gap:40px; margin:40px 0"><div class="review-card" style="flex:1"><h3><i class="fas fa-address-card"></i> Get in Touch</h3><p style="margin:16px 0"><i class="fas fa-phone"></i> <strong>8122564741</strong></p><p style="margin:16px 0"><i class="fas fa-envelope"></i> josjosuva72@gmail.com</p><p style="margin:16px 0"><i class="fas fa-map-marker-alt"></i> Mariyanatha Puram, Dindigul, Tamil Nadu - 624001</p><h4><i class="fas fa-clock"></i> Store Hours</h4><p>Monday - Saturday: 9:30 AM - 8:00 PM<br>Sunday: 10:00 AM - 2:00 PM</p></div><div class="review-card" style="flex:1"><h3><i class="fas fa-paper-plane"></i> Send us a Message</h3><form id="contactForm"><div class="form-group"><input type="text" placeholder="Your Name" required></div><div class="form-group"><input type="email" placeholder="Email Address" required></div><div class="form-group"><textarea rows="4" placeholder="Your Message"></textarea></div><button type="submit" class="btn-primary"><i class="fas fa-envelope"></i> Send Message</button></form></div></div>`;
+    document.getElementById('contactForm')?.addEventListener('submit', e => { e.preventDefault(); showToast('Message sent! We will contact you soon.'); e.target.reset(); }); }
+  
+  function renderAdminDashboard(c) {
+    if(!currentUser || !currentUser.isAdmin) {
+      c.innerHTML = `<div class="access-denied"><i class="fas fa-lock"></i><h2>Access Denied</h2><p>You don't have permission to access the admin panel.</p><button class="btn-primary" onclick="navigate('home')"><i class="fas fa-home"></i> Back to Home</button></div>`;
+      return;
+    }
+    const orders = shopData.orders;
+    const totalSales = orders.reduce((s,o)=>s+o.total,0);
+    const pendingOrders = orders.filter(o => o.status === 'Pending').length;
+    const shippedOrders = orders.filter(o => o.status === 'Shipped').length;
+    const deliveredOrders = orders.filter(o => o.status === 'Delivered').length;
+    const totalCustomers = users.filter(u => !u.isAdmin).length;
+    const totalRegistrations = totalCustomers;
+    
+    c.innerHTML = `
+      <div class="admin-dashboard-container">
+        <div class="admin-header">
+          <h1 class="admin-title"><i class="fas fa-shield-alt"></i> Admin Dashboard</h1>
+          <button class="btn-outline" onclick="navigate('home')"><i class="fas fa-home"></i> Back to Store</button>
+        </div>
+        
+        <!-- Stats Cards -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-bottom: 40px;">
+          <div class="stats-card">
+            <h3><i class="fas fa-shopping-cart"></i> Total Orders</h3>
+            <p style="font-size: 2rem; font-weight: bold;">${orders.length}</p>
+            <small>All time orders</small>
+          </div>
+          <div class="stats-card">
+            <h3><i class="fas fa-rupee-sign"></i> Total Revenue</h3>
+            <p style="font-size: 2rem; font-weight: bold;">₹${totalSales.toLocaleString()}</p>
+            <small>Lifetime sales</small>
+          </div>
+          <div class="stats-card">
+            <h3><i class="fas fa-clock"></i> Pending Orders</h3>
+            <p style="font-size: 2rem; font-weight: bold; color: #f59e0b;">${pendingOrders}</p>
+            <small>Awaiting processing</small>
+          </div>
+          <div class="stats-card">
+            <h3><i class="fas fa-truck"></i> Shipped Orders</h3>
+            <p style="font-size: 2rem; font-weight: bold; color: #3b82f6;">${shippedOrders}</p>
+            <small>In transit</small>
+          </div>
+          <div class="stats-card">
+            <h3><i class="fas fa-check-circle"></i> Delivered Orders</h3>
+            <p style="font-size: 2rem; font-weight: bold; color: #10b981;">${deliveredOrders}</p>
+            <small>Completed orders</small>
+          </div>
+          <div class="stats-card">
+            <h3><i class="fas fa-box"></i> Products</h3>
+            <p style="font-size: 2rem; font-weight: bold;">${shopData.products.length}</p>
+            <small>Active products</small>
+          </div>
+          <div class="stats-card">
+            <h3><i class="fas fa-users"></i> Total Registrations</h3>
+            <p style="font-size: 2rem; font-weight: bold; color: #8b5cf6;">${totalRegistrations}</p>
+            <small>Registered customers</small>
+          </div>
+        </div>
+        
+        <!-- Product Management -->
+        <div style="margin-bottom: 40px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 24px;">
+            <h2><i class="fas fa-box"></i> Product Management</h2>
+            <button class="btn-primary" onclick="window.showAddProductModal()"><i class="fas fa-plus"></i> Add New Product</button>
+          </div>
+          <div class="product-grid">
+            ${shopData.products.length === 0 ? '<p style="text-align: center;">No products yet. Click "Add New Product" to create one.</p>' : shopData.products.map(p => `
+              <div class="product-card">
+                <img class="product-img" src="${p.image}" alt="${p.name}">
+                <div class="product-info">
+                  <div class="product-title">${p.name}</div>
+                  <div class="product-model"><i class="fas fa-tag"></i> Model: ${p.model || 'N/A'}</div>
+                  <div class="product-price">₹${p.price}</div>
+                  <div><i class="fas fa-folder"></i> ${p.category}</div>
+                  <div style="font-size:0.8rem; margin: 8px 0;"><i class="fas fa-cubes"></i> Stock: ${p.stock || 'N/A'}</div>
+                  <div style="margin-top: 8px;">
+                    <button class="btn-success btn-sm" onclick="window.uploadModelImage(${p.id})"><i class="fas fa-upload"></i> Upload Image</button>
+                  </div>
+                  ${p.modelImages && p.modelImages.length > 0 ? `
+                    <div class="model-images" style="margin-top: 8px;">
+                      ${p.modelImages.map((img, idx) => `
+                        <div class="model-image-item" style="width: 60px; height: 60px;">
+                          <img src="${img}" alt="Model image ${idx+1}">
+                          <button class="btn-danger btn-sm" style="position: absolute; top: -5px; right: -5px; width: 20px; height: 20px; padding: 0; font-size: 10px; border-radius: 50%;" onclick="event.stopPropagation(); window.deleteModelImage(${p.id}, ${idx})">×</button>
+                        </div>
+                      `).join('')}
+                    </div>
+                  ` : ''}
+                  <button class="btn-danger btn-sm" style="width: 100%; margin-top: 12px;" onclick="window.adminDeleteProduct(${p.id})"><i class="fas fa-trash"></i> Delete Product</button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        
+        <!-- Registered Customers Section -->
+        <div style="margin-bottom: 40px;">
+          <h2><i class="fas fa-users"></i> Registered Customers (${totalRegistrations})</h2>
+          <div class="admin-table registration-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Registered Date</th>
+                  <th>Account Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${users.filter(u => !u.isAdmin).length === 0 ? `
+                  <tr>
+                    <td colspan="6" style="text-align: center;">No registered customers yet</td>
+                  </tr>
+                ` : users.filter(u => !u.isAdmin).map(user => `
+                  <tr>
+                    <td>#${user.id}</td>
+                    <td><i class="fas fa-user-circle"></i> ${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.phone || 'Not provided'}</td>
+                    <td>${new Date(user.createdAt).toLocaleDateString()}</td>
+                    <td><span class="badge" style="background: #f59e0b; color: white;">Customer</span></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+        <!-- Order Management -->
+        <div>
+          <h2><i class="fas fa-shopping-cart"></i> Order Management</h2>
+          <div class="admin-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Email</th>
+                  <th>Total</th>
+                  <th>Items</th>
+                  <th>Files</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${orders.length === 0 ? '<tr><td colspan="8" style="text-align: center;">No orders yet</td></tr>' : orders.slice(0, 10).map(o => `
+                  <tr>
+                    <td>#${o.id}</td>
+                    <td>${o.customer.name}</td>
+                    <td>${o.customer.email}</td>
+                    <td>₹${o.total}</td>
+                    <td>${o.items.length} item(s)</td>
+                    <td>${o.items.some(i => i.uploadedFile) ? `<button class="btn-success btn-sm" onclick="window.viewOrderDetails(${o.id})"><i class="fas fa-eye"></i> View Files</button>` : 'No files'}</td>
+                    <td>
+                      <select onchange="window.adminUpdateOrderStatus(${o.id}, this.value)" style="padding: 4px 8px; border-radius: 20px;">
+                        <option ${o.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                        <option ${o.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                        <option ${o.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                      </select>
+                    </td>
+                    <td>
+                      <button class="btn-outline btn-sm" onclick="window.viewOrderDetails(${o.id})"><i class="fas fa-eye"></i> View</button>
+                      <button class="btn-danger btn-sm" onclick="window.adminDeleteOrder(${o.id})"><i class="fas fa-trash"></i> Delete</button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // ========== GLOBAL WINDOW FUNCTIONS ==========
+  window.navigate = navigate;
+  window.viewProductDetail = viewProductDetail;
+  window.addToCart = addToCart;
+  window.showLoginModal = showLoginModal;
+  window.showSignupModal = showSignupModal;
+  window.logoutUser = logoutUser;
+  window.showUserProfile = showUserProfile;
+  window.showUserOrders = showUserOrders;
+  window.closeModal = closeModal;
+  window.adminDeleteProduct = adminDeleteProduct;
+  window.adminDeleteOrder = adminDeleteOrder;
+  window.adminUpdateOrderStatus = adminUpdateOrderStatus;
+  window.viewOrderDetails = viewOrderDetails;
+  window.showAddProductModal = showAddProductModal;
+  window.downloadFile = downloadFile;
+  window.uploadModelImage = uploadModelImage;
+  window.deleteModelImage = deleteModelImage;
+  window.showToast = showToast;
+  window.renderPage = renderPage;
+  window.saveCart = saveCart;
+  window.performSearch = performSearch;
+  window.showSearchResults = showSearchResults;
+  window.closeSearchResults = closeSearchResults;
+  window.cart = cart;
+
+  initData();
+  renderPage();
+</script>
+</body>
+</html>
