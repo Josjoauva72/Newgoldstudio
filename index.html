@@ -82,6 +82,7 @@
     .form-group { margin-bottom: 20px; }
     .form-group label { display: block; margin-bottom: 8px; font-weight: 500; }
     .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
+    .image-preview { max-width: 200px; margin-top: 10px; border-radius: 8px; border: 1px solid #ddd; padding: 5px; }
     .upload-area { border: 2px dashed #ddd; border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; transition: 0.2s; background: #fafafa; }
     .upload-area:hover { border-color: var(--gold); background: #fff; }
     .auth-page { min-height: calc(100vh - 200px); display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
@@ -217,7 +218,6 @@
 
   function logout() { currentUser = null; updateAuthUI(); navigate('home'); }
 
-  // Updated registration with phone number
   function registerUser(name, email, phone, password) {
     if(users.find(u => u.email === email)) return { success: false, message: 'Email already registered.' };
     if(users.find(u => u.phone === phone)) return { success: false, message: 'Phone number already registered.' };
@@ -314,7 +314,7 @@
     window.open(`https://wa.me/${BUSINESS_PHONE}?text=${message}`, '_blank');
   }
 
-  // ========== ENHANCED ADMIN DASHBOARD ==========
+  // ========== ENHANCED ADMIN DASHBOARD WITH WORKING ADD PRODUCT ==========
   function renderAdminDashboard(container) {
     if(!currentUser || currentUser.role !== 'admin') { navigate('login-register'); return; }
     
@@ -368,31 +368,281 @@
       });
     });
     
-    // Products Management
+    // Render Products
     function renderProducts() {
       const grid = document.getElementById('adminProductsList');
       if(!grid) return;
+      if(products.length === 0) {
+        grid.innerHTML = '<div style="text-align:center; padding:40px; color:#999;">No products yet. Click "Add New Product" to get started.</div>';
+        return;
+      }
       grid.innerHTML = products.map(p => `
         <div class="product-card">
           <img src="${p.image}" style="width:100%; height:180px; object-fit:cover;">
           <div class="product-info">
             <strong>${p.name}</strong><br>₹${p.price}<br><small>${p.type}</small>
             <div style="margin-top:12px;">
-              <button class="btn-outline editProductBtn" data-id="${p.id}" style="width:100%;">Edit</button>
-              <button class="btn-outline deleteProductBtn" data-id="${p.id}" style="width:100%; margin-top:8px; border-color:#ff4444; color:#ff4444;">Delete</button>
+              <button class="btn-outline editProductBtn" data-id="${p.id}" style="width:100%;"><i class="fas fa-edit"></i> Edit</button>
+              <button class="btn-outline deleteProductBtn" data-id="${p.id}" style="width:100%; margin-top:8px; border-color:#ff4444; color:#ff4444;"><i class="fas fa-trash"></i> Delete</button>
             </div>
           </div>
         </div>
       `).join('');
-      document.querySelectorAll('.editProductBtn').forEach(btn => btn.addEventListener('click', () => { let p = products.find(p => p.id == btn.dataset.id); if(p) { let n=prompt("New name:", p.name); if(n) p.name=n; let pr=prompt("New price:", p.price); if(pr) p.price=parseInt(pr); localStorage.setItem('products',JSON.stringify(products)); renderProducts(); } }));
-      document.querySelectorAll('.deleteProductBtn').forEach(btn => btn.addEventListener('click', () => { if(confirm('Delete this product?')) { products = products.filter(p => p.id != btn.dataset.id); localStorage.setItem('products',JSON.stringify(products)); renderProducts(); } }));
+      
+      document.querySelectorAll('.editProductBtn').forEach(btn => {
+        btn.addEventListener('click', () => editProductWithImageUpload(parseInt(btn.dataset.id)));
+      });
+      document.querySelectorAll('.deleteProductBtn').forEach(btn => {
+        btn.addEventListener('click', () => { 
+          if(confirm('Delete this product permanently?')) { 
+            products = products.filter(p => p.id != btn.dataset.id); 
+            localStorage.setItem('products', JSON.stringify(products)); 
+            renderProducts(); 
+          } 
+        });
+      });
     }
-    document.getElementById('addProductBtn')?.addEventListener('click', () => { let n=prompt("Product name:")||"New"; let p=parseInt(prompt("Price:")||"499"); products.push({id:Date.now(), name:n, price:p, size:"Standard", type:"Wooden Frames", image:"https://placehold.co/400x300/2c2c2c/gold?text=New", description:""}); localStorage.setItem('products',JSON.stringify(products)); renderProducts(); });
     
-    // Users Management with View Details
+    // Edit Product Modal with Image Upload
+    function editProductWithImageUpload(productId) {
+      const product = products.find(p => p.id === productId);
+      if(!product) return;
+      
+      const modalHtml = `
+        <div id="editProductModal" class="modal" style="display:flex;">
+          <div class="modal-content">
+            <h3>Edit Product</h3>
+            <form id="editProductForm">
+              <div class="form-group">
+                <label>Product Name *</label>
+                <input type="text" id="editName" value="${product.name.replace(/'/g, "\\'")}" required>
+              </div>
+              <div class="form-group">
+                <label>Price (₹) *</label>
+                <input type="number" id="editPrice" value="${product.price}" required>
+              </div>
+              <div class="form-group">
+                <label>Size</label>
+                <input type="text" id="editSize" value="${product.size}" required>
+              </div>
+              <div class="form-group">
+                <label>Type *</label>
+                <select id="editType">
+                  <option ${product.type === 'Wooden Frames' ? 'selected' : ''}>Wooden Frames</option>
+                  <option ${product.type === 'Glass Frames' ? 'selected' : ''}>Glass Frames</option>
+                  <option ${product.type === 'Collage Frames' ? 'selected' : ''}>Collage Frames</option>
+                  <option ${product.type === 'Custom Frames' ? 'selected' : ''}>Custom Frames</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <textarea id="editDescription" rows="3">${product.description || ''}</textarea>
+              </div>
+              <div class="form-group">
+                <label>Current Image</label>
+                <img src="${product.image}" class="image-preview" id="currentImagePreview">
+              </div>
+              <div class="form-group">
+                <label>Upload New Image (PNG/JPG - Optional)</label>
+                <div class="upload-area" id="imageUploadArea">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  <p>Click to upload image (PNG or JPG)</p>
+                  <input type="file" id="productImageInput" accept="image/png,image/jpeg,image/jpg" style="display:none;">
+                </div>
+                <div id="newImagePreview" style="margin-top:10px;"></div>
+              </div>
+              <div style="display:flex; gap:12px; margin-top:20px;">
+                <button type="submit" class="btn-gold">Save Changes</button>
+                <button type="button" id="closeEditModal" class="btn-outline">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      `;
+      
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      
+      const fileInput = document.getElementById('productImageInput');
+      const uploadArea = document.getElementById('imageUploadArea');
+      const newImagePreview = document.getElementById('newImagePreview');
+      let newImageData = null;
+      
+      uploadArea.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', (e) => {
+        if(e.target.files[0]) {
+          const file = e.target.files[0];
+          if(file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg') {
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+              newImageData = ev.target.result;
+              newImagePreview.innerHTML = `<img src="${newImageData}" class="image-preview" style="max-width:200px;"><p style="color:green; margin-top:5px;">✓ New image selected</p>`;
+            };
+            reader.readAsDataURL(file);
+          } else {
+            alert('Please upload only PNG or JPG images');
+            fileInput.value = '';
+          }
+        }
+      });
+      
+      document.getElementById('editProductForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        product.name = document.getElementById('editName').value;
+        product.price = parseInt(document.getElementById('editPrice').value);
+        product.size = document.getElementById('editSize').value;
+        product.type = document.getElementById('editType').value;
+        product.description = document.getElementById('editDescription').value;
+        if(newImageData) {
+          product.image = newImageData;
+        }
+        localStorage.setItem('products', JSON.stringify(products));
+        document.getElementById('editProductModal').remove();
+        renderProducts();
+        alert('Product updated successfully!');
+      });
+      
+      document.getElementById('closeEditModal').addEventListener('click', () => {
+        document.getElementById('editProductModal').remove();
+      });
+    }
+    
+    // Add Product with Image Upload - FIXED
+    document.getElementById('addProductBtn')?.addEventListener('click', () => {
+      const modalHtml = `
+        <div id="addProductModal" class="modal" style="display:flex;">
+          <div class="modal-content">
+            <h3>Add New Product</h3>
+            <form id="addProductForm">
+              <div class="form-group">
+                <label>Product Name *</label>
+                <input type="text" id="newName" placeholder="Enter product name" required>
+              </div>
+              <div class="form-group">
+                <label>Price (₹) *</label>
+                <input type="number" id="newPrice" placeholder="Enter price" required>
+              </div>
+              <div class="form-group">
+                <label>Size *</label>
+                <input type="text" id="newSize" placeholder="e.g., 8x10 inch" required>
+              </div>
+              <div class="form-group">
+                <label>Type *</label>
+                <select id="newType">
+                  <option>Wooden Frames</option>
+                  <option>Glass Frames</option>
+                  <option>Collage Frames</option>
+                  <option>Custom Frames</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <textarea id="newDescription" rows="3" placeholder="Product description"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Upload Product Image (PNG/JPG) *</label>
+                <div class="upload-area" id="addImageUploadArea">
+                  <i class="fas fa-cloud-upload-alt"></i>
+                  <p>Click to upload image (PNG or JPG)</p>
+                  <input type="file" id="newProductImage" accept="image/png,image/jpeg,image/jpg" style="display:none;" required>
+                </div>
+                <div id="addImagePreview" style="margin-top:10px;"></div>
+              </div>
+              <div id="addProductError" class="error-message" style="display:none; margin-bottom:15px;"></div>
+              <div style="display:flex; gap:12px; margin-top:20px;">
+                <button type="submit" class="btn-gold">Add Product</button>
+                <button type="button" id="closeAddModal" class="btn-outline">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      `;
+      
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      
+      const fileInput = document.getElementById('newProductImage');
+      const uploadArea = document.getElementById('addImageUploadArea');
+      const imagePreview = document.getElementById('addImagePreview');
+      const errorDiv = document.getElementById('addProductError');
+      let imageData = null;
+      
+      uploadArea.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', (e) => {
+        if(e.target.files[0]) {
+          const file = e.target.files[0];
+          if(file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg') {
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+              imageData = ev.target.result;
+              imagePreview.innerHTML = `<img src="${imageData}" class="image-preview" style="max-width:200px;"><p style="color:green; margin-top:5px;">✓ Image ready to upload</p>`;
+              errorDiv.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+          } else {
+            alert('Please upload only PNG or JPG images');
+            fileInput.value = '';
+            imageData = null;
+          }
+        }
+      });
+      
+      document.getElementById('addProductForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const name = document.getElementById('newName').value.trim();
+        const price = document.getElementById('newPrice').value;
+        const size = document.getElementById('newSize').value.trim();
+        
+        if(!name) {
+          errorDiv.innerText = 'Please enter product name';
+          errorDiv.style.display = 'block';
+          return;
+        }
+        if(!price) {
+          errorDiv.innerText = 'Please enter product price';
+          errorDiv.style.display = 'block';
+          return;
+        }
+        if(!size) {
+          errorDiv.innerText = 'Please enter product size';
+          errorDiv.style.display = 'block';
+          return;
+        }
+        if(!imageData) {
+          errorDiv.innerText = 'Please upload a product image (PNG or JPG)';
+          errorDiv.style.display = 'block';
+          return;
+        }
+        
+        const newProduct = {
+          id: Date.now(),
+          name: name,
+          price: parseInt(price),
+          size: size,
+          type: document.getElementById('newType').value,
+          description: document.getElementById('newDescription').value,
+          image: imageData
+        };
+        
+        products.push(newProduct);
+        localStorage.setItem('products', JSON.stringify(products));
+        document.getElementById('addProductModal').remove();
+        renderProducts();
+        alert(`Product "${name}" added successfully!`);
+      });
+      
+      document.getElementById('closeAddModal').addEventListener('click', () => {
+        document.getElementById('addProductModal').remove();
+      });
+    });
+    
+    // Users Management
     function renderUsers() {
       const tbody = document.getElementById('usersTableBody');
       const allUsers = [...users, ...googleUsers];
+      if(allUsers.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No users registered yet</td></tr>';
+        return;
+      }
       tbody.innerHTML = allUsers.map(u => {
         const userOrders = orders.filter(o => o.email === u.email);
         return `
@@ -403,15 +653,12 @@
             <td>${u.phone || 'Not provided'}</td>
             <td>${userOrders.length}</td>
             <td>${new Date(u.createdAt).toLocaleDateString()}</td>
-            <td>
-              <button class="view-details-btn" onclick="viewUserDetails('${u.email}')">View Details</button>
-            </td>
+            <td><button class="view-details-btn" onclick="viewUserDetails('${u.email}')">View Details</button></td>
           </tr>
         `;
       }).join('');
     }
     
-    // Global function for viewing user details
     window.viewUserDetails = function(email) {
       const allUsers = [...users, ...googleUsers];
       const user = allUsers.find(u => u.email === email);
@@ -448,9 +695,13 @@
       document.body.insertAdjacentHTML('beforeend', modalHtml);
     };
     
-    // Orders Management with File View
+    // Orders Management
     function renderOrders() {
       const tbody = document.getElementById('ordersTableBody');
+      if(orders.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">No orders yet</td></tr>';
+        return;
+      }
       tbody.innerHTML = orders.map(order => `
         <tr>
           <td>${order.orderId}</td>
@@ -522,9 +773,13 @@
       }
     };
     
-    // Uploads Management with Download
+    // Uploads Management
     function renderUploads() {
       const tbody = document.getElementById('uploadsTableBody');
+      if(uploadedFiles.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">No files uploaded yet</td></tr>';
+        return;
+      }
       tbody.innerHTML = uploadedFiles.map(file => `
         <tr>
           <td>${file.userName || 'Guest'}</td>
@@ -534,7 +789,7 @@
           <td>${file.type?.startsWith('image/') ? `<img src="${file.data}" style="max-width:50px; border-radius:4px;">` : 'Document'}</td>
           <td><button class="download-btn" onclick="downloadFile('${file.data}','${file.name}')">Download</button></td>
           <td>${new Date(file.uploadDate).toLocaleString()}</td>
-         </tr>
+        </tr>
       `).join('');
     }
     
@@ -629,7 +884,7 @@
     });
   }
 
-  // ========== HOME PAGE ==========
+  // ========== OTHER PAGES (simplified for brevity) ==========
   function renderHome(container) {
     const featured = products.slice(0,4);
     container.innerHTML = `
@@ -658,8 +913,7 @@
     document.getElementById('featuredGrid').innerHTML = featured.map(p => `<div class="product-card" onclick="navigate('product',{id:${p.id}})"><img class="product-img" src="${p.image}"><div class="product-info"><div class="product-title">${p.name}</div><div class="product-price">₹${p.price}</div><button class="btn-gold add-to-cart-btn" data-id="${p.id}" onclick="event.stopPropagation(); addToCart(${p.id})">Add to Cart</button></div></div>`).join('');
     document.querySelectorAll('[data-nav="shop"]').forEach(el => el.addEventListener('click', (e) => { e.preventDefault(); navigate('shop'); }));
   }
-
-  // ========== SHOP PAGE ==========
+  
   function renderShop(container) {
     container.innerHTML = `
       <div class="container">
@@ -717,6 +971,7 @@
   
   function renderProductDetail(container, id) {
     let p = products.find(p => p.id == id);
+    if(!p) return navigate('shop');
     container.innerHTML = `<div class="container"><div class="page-title">${p.name}</div><div style="display:grid; grid-template-columns:1fr 1fr; gap:40px; margin:40px 0;"><img src="${p.image}" style="width:100%; border-radius:20px;"><div><h2>${p.name}</h2><p>${p.description}</p><p><strong>Size:</strong> ${p.size}</p><p><strong>Type:</strong> ${p.type}</p><p class="product-price" style="font-size:1.8rem;">₹${p.price}</p><button id="detailAdd" class="btn-gold">Add to Cart</button></div></div></div>`;
     document.getElementById('detailAdd')?.addEventListener('click', () => addToCart(p.id,1));
   }
@@ -726,7 +981,6 @@
     document.getElementById('waChatBtn')?.addEventListener('click', () => window.open('https://wa.me/918122564741', '_blank'));
   }
   
-  // Updated Login/Register with Phone Number
   function renderLoginRegister(container) {
     container.innerHTML = `
       <div class="auth-page">
@@ -763,7 +1017,6 @@
       </div>
     `;
     
-    // Tab switching
     document.querySelectorAll('.auth-tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
@@ -773,7 +1026,6 @@
       });
     });
     
-    // Login handler
     document.getElementById('doLogin').addEventListener('click', () => {
       const email = document.getElementById('loginEmail').value;
       const pwd = document.getElementById('loginPassword').value;
@@ -785,7 +1037,6 @@
       }
     });
     
-    // Register handler with phone number
     document.getElementById('doRegister').addEventListener('click', () => {
       const name = document.getElementById('regName').value.trim();
       const email = document.getElementById('regEmail').value.trim();
@@ -838,7 +1089,6 @@
       }
     });
     
-    // Google Sign-In
     if(typeof google !== 'undefined') {
       google.accounts.id.initialize({ client_id: '1080627485892-8v4v6v7v8v9v0v1v2v3v4v5v6v7v8v9v.apps.googleusercontent.com', callback: handleGoogleLogin });
       if(document.getElementById('googleLoginBtn')) {
